@@ -20,14 +20,14 @@ def main():
                 pinned=False
             )
 
-            session.add_all([note_1, note_2])
+            session.add_all([note_1, note_2]) # Miało być add() ale tak jest krócej ;P 
             session.commit()
 
             
             found_note = session.query(Note).filter(Note.title=="Lista zakupów").first()
             if found_note is not None:
-                print("Znaleziono notatke: ",found_note.title)
-                print("treść notatki: ",found_note.body)
+                print(f"Znaleziono notatke: {found_note.title}")
+                print(f"treść notatki: {found_note.body}")
             else:
                 print("Brak notatki o podanej nazwie")
 
@@ -44,14 +44,14 @@ def main():
             if delete_note is not None:
                 session.delete(delete_note)
                 session.commit()
-                print("usunieto notatkę: ", delete_note.title)
+                print(f"usunieto notatkę:  {delete_note.title}")
             else:
                 print("Nie znaleziono notatki do usunięcia")
 
 
-        except SQLAlchemyError:
-            session.rollback()    
-            
+        except SQLAlchemyError as e:
+            print("SQLAlchemyError:", e)
+            session.rollback()
 
 if __name__ == "__main__":
     main()
