@@ -4,10 +4,16 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import text, func
 
 
+
+def clear_table(session):
+    session.query(Measurement).delete()
+    session.commit()
+
 def main():
     Base.metadata.create_all(engine)
 
     with Session() as session:
+        clear_table(session)
         try:
             heidelberg_measurements = [
             Measurement(
