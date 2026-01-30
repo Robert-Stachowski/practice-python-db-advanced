@@ -4,6 +4,7 @@ from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
 
+
 class Measurement(Base):
     __tablename__ = "measurement"
 
