@@ -1,5 +1,5 @@
 from db import Session, engine
-from models import Measurment, Base
+from models import Measurement, Base
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import text, func
 
@@ -10,27 +10,27 @@ def main():
     with Session() as session:
         try:
             heidelberg_measurements = [
-            Measurment(
+            Measurement(
                 device_name="Heidelberg CoreMaker H200",
                 value=182.1,
                 timestamp=text("datetime('now', '-5 day')")
             ),
-            Measurment(
+            Measurement(
                 device_name="Heidelberg CoreMaker H200",
                 value=182.8,
                 timestamp=text("datetime('now', '-4 day')")
             ),
-            Measurment(
+            Measurement(
                 device_name="Heidelberg CoreMaker H200",
                 value=183.4,
                 timestamp=text("datetime('now', '-3 day')")
             ),
-            Measurment(
+            Measurement(
                 device_name="Heidelberg CoreMaker H200",
                 value=184.0,
                 timestamp=text("datetime('now', '-2 day')")
             ),
-            Measurment(
+            Measurement(
                 device_name="Heidelberg CoreMaker H200",
                 value=183.6,
                 timestamp=text("datetime('now', '-1 day')")
@@ -39,17 +39,17 @@ def main():
 
             # --- Laempe L40
             laempe_measurements = [
-                Measurment(
+                Measurement(
                     device_name="Laempe L40",
                     value=147.9,
                     timestamp=text("datetime('now', '-3 day')")
                 ),
-                Measurment(
+                Measurement(
                     device_name="Laempe L40",
                     value=148.4,
                     timestamp=text("datetime('now', '-2 day')")
                 ),
-                Measurment(
+                Measurement(
                     device_name="Laempe L40",
                     value=149.1,
                     timestamp=text("datetime('now', '-1 day')")
@@ -58,17 +58,17 @@ def main():
 
             # --- Omega Sinto FBO-II
             omega_measurements = [
-                Measurment(
+                Measurement(
                     device_name="Omega Sinto FBO-II",
                     value=36.2,
                     timestamp=text("datetime('now', '-4 day')")
                 ),
-                Measurment(
+                Measurement(
                     device_name="Omega Sinto FBO-II",
                     value=36.8,
                     timestamp=text("datetime('now', '-2 day')")
                 ),
-                Measurment(
+                Measurement(
                     device_name="Omega Sinto FBO-II",
                     value=37.1,
                     timestamp=text("datetime('now')")
@@ -84,13 +84,13 @@ def main():
             print("Załadowano dane poprawnie\n")
 
 
-            results = session.query(Measurment.device_name, func.count(Measurment.id).label("count")).group_by(Measurment.device_name).all()
+            results = session.query(Measurement.device_name, func.count(Measurement.id).label("count")).group_by(Measurement.device_name).all()
             for result in results:
                 print(f"Maszyna:  {result.device_name},  Ilość prób:  {result.count}")
 
             print("\n")
 
-            avg_results = session.query(Measurment.device_name, func.round(func.avg(Measurment.value),2).label("avg")).group_by(Measurment.device_name).all()
+            avg_results = session.query(Measurement.device_name, func.round(func.avg(Measurement.value),2).label("avg")).group_by(Measurement.device_name).all()
             for result in avg_results:
                 print(f"Maszyna:  {result.device_name},  Średnia z prób:  {result.avg}")
 
