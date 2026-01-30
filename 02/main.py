@@ -4,12 +4,16 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import func
 from sqlalchemy.orm import selectinload
 
-
+def clear_table(session):
+    session.query(Book).delete()
+    session.query(Author).delete()
+    session.commit()
 
 def main():
     Base.metadata.create_all(engine)
 
     with Session() as session:
+        clear_table(session)
         try:
             
             # Autor1
