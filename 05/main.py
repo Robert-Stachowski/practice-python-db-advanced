@@ -39,7 +39,7 @@ def main():
 
             session.add_all(items)
             session.commit()
-            print("Zapakowano po korek ;) ")
+            print("Zładowano dane do tabeli ")
 
             print("\n")
 
@@ -49,7 +49,7 @@ def main():
 
             print("\n")
 
-            paginated_items = session.query(Item).order_by(Item.name).limit(5).offset(10).all()
+            paginated_items = session.query(Item).order_by(Item.priority, Item.id).limit(5).offset(10).all()
             for item in paginated_items:
                 print(item.id,item.name,item.priority)    
 
