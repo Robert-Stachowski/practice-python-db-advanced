@@ -1,13 +1,19 @@
 from db import Session, engine
-from models import Person, Skill, person_skill, Base
+from models import Person, Skill, Base
 from sqlalchemy.exc import SQLAlchemyError
 
+
+def clear_table(session):
+    session.query(Skill).delete()
+    session.query(Person).delete()
+    session.commit()
 
 def main():
     Base.metadata.create_all(engine)
 
 
     with Session() as session:
+        clear_table(session)
         try:
             # --- osoby ---
             persons = [
