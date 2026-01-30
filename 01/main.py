@@ -3,10 +3,15 @@ from models import Note, Base
 from sqlalchemy.exc import SQLAlchemyError
 
 
+def clear_table(session):
+    session.query(Note).delete()    
+    session.commit()
+
 def main():
     Base.metadata.create_all(engine)
 
     with Session() as session:
+        clear_table(session)
         try:
             note_1 = Note(
                 title="Lista zakupów",
