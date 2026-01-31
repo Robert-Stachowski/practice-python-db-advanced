@@ -8,8 +8,8 @@ Base = declarative_base()
 person_skill = Table(
     "person_skill",
     Base.metadata,
-    person_id = Column(Integer, ForeignKey("person.id"), primary_key=True),
-    skill_id = Column(Integer, ForeignKey("skills.id"), primary_key=True)
+    Column("person_id",Integer, ForeignKey("person.id"), primary_key=True),
+    Column("skill_id",Integer, ForeignKey("skills.id"), primary_key=True)
     )
 
 
