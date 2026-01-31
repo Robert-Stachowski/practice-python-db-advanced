@@ -4,7 +4,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 
 def clear_table(session):
-    session.query(person_skill)
+    session.execute(person_skill.delete())
     session.query(Skill).delete()
     session.query(Person).delete()
     session.commit()
@@ -56,17 +56,16 @@ def main():
                 "Olek":   ["FastAPI", "Debugging", "Refactoring","Django", "Testing"]
             }
         
-            for person_name, skill_name in assignments.items():
+            for person_name, skill_names in assignments.items():
                 person = person_by_name[person_name]
-                person.skills = [skill_by_name[name] for name in skill_name]
+                person.skills = [skill_by_name[name] for name in skill_names]
 
             session.commit()
             print("\n Przypisano umiejętności \n")
+                        
 
-            
 
 
-            
             
             #Dla jednej osoby wypisz listę jej umiejętności.
             person_name = "Olek"
@@ -74,9 +73,9 @@ def main():
 
             print(f"Osoba: '{person_name}', posiada umiejętności: ")
 
-            for skills in person.skills:
-                if not person.skills:
-                    print("Brak umiejętności")
+            if not person.skills:
+                print("Brak umiejętności")
+            for skills in person.skills:                
                 print(skills.name)
 
 
@@ -90,9 +89,9 @@ def main():
 
             print(f"Skilla: '{skill.name}' posiada: ")
 
-            for person in skill.persons:
-                if not skill.persons:
+            if not skill.persons:
                     print(f"Nikt nie ma skilla '{skill.name}' ")
+            for person in skill.persons:                
                 print(person.name)
 
 
