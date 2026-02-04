@@ -1,4 +1,4 @@
-from db import Session, engine
+from db import SessionLocal, engine
 from models import Note, Base
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -10,7 +10,7 @@ def clear_table(session):
 def main():
     Base.metadata.create_all(engine)
 
-    with Session() as session:
+    with SessionLocal() as session:
         clear_table(session)
         try:
             note_1 = Note(
@@ -45,7 +45,7 @@ def main():
                 print("Nie znaleziono notatki z pinned=False")
 
 
-            delete_note = session.query(Note).order_by(Note.id).offset(1).first()
+            delete_note = session.query(Note).filter(Note.title == "Pomysły do projektu").first()
             if delete_note is not None:
                 session.delete(delete_note)
                 session.commit()
