@@ -10,7 +10,7 @@ class Author(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
 
-    books_var = relationship("Book", back_populates="author_var") # Dziwna nazwa zmiennej, ale przynajmniej nie miesza mi się z nazwą tabeli...
+    books = relationship("Book", back_populates="author", cascade="all, delete-orphan")
 
 
 class Book(Base):
@@ -20,4 +20,4 @@ class Book(Base):
     title = Column(String, nullable=False)
     author_id = Column(Integer, ForeignKey("authors.id"), nullable=False)
 
-    author_var = relationship("Author", back_populates="books_var") #to samo co wyżej ;) 
+    author = relationship("Author", back_populates="books")
