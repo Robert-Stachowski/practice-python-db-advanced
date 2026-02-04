@@ -1,4 +1,4 @@
-from db import Session, engine
+from db import SessionLocal, engine
 from models import Item, Base
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -11,7 +11,7 @@ def clear_table(session):
 def main():
     Base.metadata.create_all(engine)
 
-    with Session() as session:
+    with SessionLocal() as session:
         clear_table(session)
         try:
             items = [

@@ -1,4 +1,4 @@
-from sqlalchemy import Integer, String, create_engine, Column
+from sqlalchemy import Integer, String, Column
 from sqlalchemy.orm import declarative_base
 
 
