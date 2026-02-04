@@ -1,4 +1,4 @@
-from db import Session, engine
+from db import SessionLocal, engine
 from models import Person, Skill,person_skill, Base
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -13,7 +13,7 @@ def main():
     Base.metadata.create_all(engine)
 
 
-    with Session() as session:
+    with SessionLocal() as session:
         clear_table(session)
         try:
             persons = [
@@ -37,28 +37,20 @@ def main():
                 Skill(name="Refactoring"),
             ]
 
-            session.add_all(persons+skills)            
+            session.add_all(persons + skills)
             session.commit()
             print("\n Załadowano dane poprawnie \n")
 
-            #Przypisz osobom wybrane umiejętności.
-            persons = session.query(Person).all()
-            skills = session.query(Skill).all()
+            # Przypisz osobom wybrane umiejętności
+            # Obiekty persons/skills już są w sesji po commit — nie trzeba ponownie pobierać z bazy
+            xarion, lunara, milo, zyra, olek = persons
+            python, sql, docker, git, fastapi, django, linux, debugging, testing, refactoring = skills
 
-            person_by_name = {p.name: p for p in persons}
-            skill_by_name = {s.name: s for s in skills}
-
-            assignments = {
-                "Xarion": ["Python", "SQL", "Docker"],
-                "Lunara": ["Django", "Testing"],
-                "Milo":   ["Git", "Linux"],
-                "Zyra":   ["FastAPI", "Debugging", "Refactoring"],
-                "Olek":   ["FastAPI", "Debugging", "Refactoring","Django", "Testing"]
-            }
-        
-            for person_name, skill_names in assignments.items():
-                person = person_by_name[person_name]
-                person.skills = [skill_by_name[name] for name in skill_names]
+            xarion.skills = [python, sql, docker]
+            lunara.skills = [django, testing]
+            milo.skills = [git, linux]
+            zyra.skills = [fastapi, debugging, refactoring]
+            olek.skills = [fastapi, debugging, refactoring, django, testing]
 
             session.commit()
             print("\n Przypisano umiejętności \n")
